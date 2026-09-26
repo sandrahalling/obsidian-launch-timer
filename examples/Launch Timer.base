@@ -1,0 +1,15 @@
+filters:
+  and:
+    - note.t0 != ""
+formulas:
+  counter: (today() - note.t0).days.round()
+views:
+  - type: table
+    name: Launch board
+    order:
+      - file.name
+      - formula.counter
+      - t0
+    sort:
+      - property: formula.counter
+        direction: ASC

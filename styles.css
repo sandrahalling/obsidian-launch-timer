@@ -1,0 +1,70 @@
+/* Launch Timer: five dots on a fixed 21-day scale.
+   Reads left to right. Before T-zero, neutral dots sit at the right end and
+   empty slots fill in from the left. After it, accent dots (Appearance → Accent color)
+   grow from the left. */
+
+.launch-timer-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35em;
+	margin-left: 0.4em;
+	padding: 0.15em 0.3em;
+	border-radius: 0.6em;
+	vertical-align: middle;
+	line-height: 1;
+}
+.launch-timer-badge.lt-clickable {
+	cursor: text;
+}
+.launch-timer-badge.lt-clickable:hover {
+	background: var(--background-modifier-hover);
+}
+
+.lt-dots {
+	display: inline-flex;
+	gap: 3px;
+}
+.lt-dot {
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	box-sizing: border-box;
+}
+.lt-dot-empty {
+	border: 1px solid var(--background-modifier-border);
+}
+.lt-dot-before {
+	background: var(--text-muted);
+}
+.lt-dot-after {
+	background: var(--interactive-accent);
+}
+
+/* Done: frozen where it landed, dimmed. */
+.launch-timer-badge.lt-done {
+	opacity: 0.55;
+}
+.lt-check {
+	font-size: 0.8em;
+	color: var(--text-faint);
+}
+
+.lt-num {
+	font-family: var(--font-monospace);
+	font-size: 0.8em;
+	color: var(--text-muted);
+}
+
+.launch-timer-badge.lt-bad {
+	opacity: 0.4;
+}
+
+/* Status bar: same dots, a touch smaller */
+.launch-timer-status .launch-timer-badge {
+	margin-left: 0;
+	padding: 0;
+}
+.launch-timer-status .lt-dot {
+	width: 5px;
+	height: 5px;
+}

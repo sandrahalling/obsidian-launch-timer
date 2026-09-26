@@ -1,0 +1,9 @@
+{
+  "id": "launch-timer",
+  "name": "Launch Timer",
+  "version": "0.4.0",
+  "minAppVersion": "1.4.0",
+  "description": "Give a note or a task a window in days instead of a date. It counts up from negative to zero, then keeps counting.",
+  "author": "Sandra + Claude",
+  "isDesktopOnly": false
+}
