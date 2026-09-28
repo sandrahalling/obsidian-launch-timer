@@ -8,9 +8,9 @@ has a T-zero date, sorted so the thing furthest past its window is on top.
 What counts:
   - a note with front matter   t0: 2026-10-08
   - an unchecked task line     - [ ] Do the thing #tag [t0:: 2026-10-08]
-  - a checked task line with Dataview's completion field goes in a Done
+  - a checked task line with a [tc:: date] completion field goes in a Done
     section, showing where on the clock it landed:
-                               - [x] Did it [t0:: 2026-10-08] [completion:: 2026-10-05]
+                               - [x] Did it [t0:: 2026-10-08] [tc:: 2026-10-05]
                                → ✓ T-3
 
 Counter = today - t0.  Negative before the window closes, 0 on the day,
@@ -42,7 +42,7 @@ FM_RE = re.compile(r"\A---\r?\n(.*?)\r?\n---\r?\n", re.S)
 FM_T0_RE = re.compile(r"^t0:\s*['\"]?(-?\d+|\d{4}-\d{2}-\d{2})['\"]?\s*$", re.M)
 OPEN_TASK_RE = re.compile(r"^\s*[-*+]\s\[ \]\s")
 DONE_TASK_RE = re.compile(r"^\s*[-*+]\s\[[xX]\]\s")
-COMPLETION_RE = re.compile(r"\[completion::\s*(\d{4}-\d{2}-\d{2})\s*\]")
+COMPLETION_RE = re.compile(r"\[tc::\s*(\d{4}-\d{2}-\d{2})\s*\]")
 TAG_RE = re.compile(r"(?<![\w&/])#([\w/-]+)")
 INLINE_DATE_RE = re.compile(r"\[t0::\s*(\d{4}-\d{2}-\d{2})\s*\]")
 INLINE_NUM_RE = re.compile(r"\[t0::\s*(-?\d+)\s*\]")

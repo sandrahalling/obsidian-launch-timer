@@ -9,7 +9,7 @@ The counter math goes through milliseconds, because Dataview splits a date diffe
 ```dataview
 TABLE WITHOUT ID
   "[t0:: " + dateformat(task.t0, "yyyy-MM-dd") + "]" AS "T",
-  regexreplace(regexreplace(task.text, " *.(t0|completion):: *[0-9-]+.", ""), " *#[^ ]+", "") AS "Task",
+  regexreplace(regexreplace(task.text, " *.(t0|tc):: *[0-9-]+.", ""), " *#[^ ]+", "") AS "Task",
   join(task.tags, " ") AS "Tags",
   file.link AS "Where"
 FLATTEN file.tasks AS task
@@ -42,13 +42,13 @@ SORT t0 ASC
 ```dataview
 TABLE WITHOUT ID
   "✓ " + choice(landed > 0, "T+" + landed, "T" + landed) AS "Landed",
-  regexreplace(regexreplace(task.text, " *.(t0|completion):: *[0-9-]+.", ""), " *#[^ ]+", "") AS "Task",
-  task.completion AS "Done",
+  regexreplace(regexreplace(task.text, " *.(t0|tc):: *[0-9-]+.", ""), " *#[^ ]+", "") AS "Task",
+  task.tc AS "Done",
   file.link AS "Where"
 FLATTEN file.tasks AS task
-FLATTEN round((number(dateformat(task.completion, "x")) - number(dateformat(task.t0, "x"))) / 86400000) AS landed
-WHERE task.t0 AND task.completed AND task.completion
-SORT task.completion DESC
+FLATTEN round((number(dateformat(task.tc, "x")) - number(dateformat(task.t0, "x"))) / 86400000) AS landed
+WHERE task.t0 AND task.completed AND task.tc
+SORT task.tc DESC
 ```
 
 ## Notes with a window

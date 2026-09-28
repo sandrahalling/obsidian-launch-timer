@@ -16,8 +16,8 @@
  *   after T0   accent-colour dots grow from the left; empty space on the right
  * Hover shows the number and the date.
  *
- * When a task with a t0 is checked off, the plugin adds Dataview's
- * `[completion:: date]` field. A done task's dots freeze where it landed.
+ * When a task with a t0 is checked off, the plugin adds a
+ * `[tc:: date]` field. A done task's dots freeze where it landed.
  *
  * Display:
  *   Source mode   raw text, no badges.
@@ -36,18 +36,18 @@ const { ViewPlugin, Decoration, WidgetType } = require("@codemirror/view");
 const { RangeSetBuilder, Prec } = require("@codemirror/state");
 
 const KEY = "t0";
-const DONE_KEY = "completion"; // Dataview's own key for task completion dates
+const DONE_KEY = "tc"; // matches the completion field name set in Dataview's settings
 
 const T0_RE = /\[t0::\s*(\d{4}-\d{2}-\d{2})\s*\]/;
 const T0_RE_G = /\[t0::\s*(\d{4}-\d{2}-\d{2})\s*\]/g;
-const DONE_RE = /\[completion::\s*(\d{4}-\d{2}-\d{2})\s*\]/;
-const DONE_RE_G = /\s*\[completion::\s*\d{4}-\d{2}-\d{2}\s*\]/g;
+const DONE_RE = /\[tc::\s*(\d{4}-\d{2}-\d{2})\s*\]/;
+const DONE_RE_G = /\s*\[tc::\s*\d{4}-\d{2}-\d{2}\s*\]/g;
 const CHECKBOX_RE = /^\s*(?:[-*+]|\d+[.)])\s\[(.)\]\s/;
 const LIST_ITEM_RE = /^\s*(?:[-*+]|\d+[.)])\s/;
 
 const DEFAULTS = {
 	hideDates: true,        // badge stands in for the date until you're on the line
-	stampCompletion: true,  // add [completion:: date] when a t0 task is checked
+	stampCompletion: true,  // add [tc:: date] when a t0 task is checked
 	showNumber: false,      // dots only, unless you want the T-number beside them
 };
 
@@ -380,7 +380,7 @@ module.exports = class LaunchTimer extends Plugin {
 	}
 
 	// ----- completion stamping -----
-	// Checked + has t0 + no completion → add [completion:: today].
+	// Checked + has t0 + no completion → add [tc:: today].
 	// Unchecked + has completion → take it off. Same as Dataview's own tracking.
 	stampCompletions(file, data, cache) {
 		if (!this.settings.stampCompletion || !cache?.listItems) return;
@@ -450,7 +450,7 @@ module.exports = class LaunchTimer extends Plugin {
 		const hits = [];
 		let node;
 		while ((node = walker.nextNode())) {
-			if (/\[(t0|completion)::/.test(node.nodeValue)) hits.push(node);
+			if (/\[(t0|tc)::/.test(node.nodeValue)) hits.push(node);
 		}
 		for (const textNode of hits) {
 			const s = textNode.nodeValue;
@@ -520,7 +520,7 @@ class LaunchTimerSettings extends PluginSettingTab {
 			}));
 		new Setting(containerEl)
 			.setName("Stamp completion date")
-			.setDesc("When a task with a t0 is checked, add [completion:: date] (Dataview's key). Unchecking removes it. The done badge shows where on the clock it landed.")
+			.setDesc("When a task with a t0 is checked, add [tc:: date] (the completion field name in Dataview's settings). Unchecking removes it. The done badge shows where on the clock it landed.")
 			.addToggle((t) => t.setValue(this.plugin.settings.stampCompletion).onChange(async (v) => {
 				this.plugin.settings.stampCompletion = v;
 				await this.plugin.saveSettings();

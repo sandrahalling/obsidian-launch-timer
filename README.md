@@ -36,7 +36,7 @@ t0: 2026-10-08
 ---
 ```
 
-When a task with a `t0` is checked off, the plugin adds Dataview's own completion field, `[completion:: 2026-10-05]`. Unchecking removes it.
+When a task with a `t0` is checked off, the plugin adds `[tc:: 2026-10-05]`. Unchecking removes it. `tc` is hard-coded for now. Set Dataview's completion field name to `tc` too (Settings → Dataview → Completion field name) so both agree.
 
 ## The plugin
 
@@ -73,7 +73,7 @@ Hover a badge to see the number and the date.
 ### Settings
 - **Badge stands in for the date.** Off keeps the date visible with the badge beside it.
 - **Show the number beside the dots.** Off by default.
-- **Stamp completion date.** Adds and removes `[completion:: date]` as tasks are checked and unchecked.
+- **Stamp completion date.** Adds and removes `[tc:: date]` as tasks are checked and unchecked.
 
 ## The script
 
