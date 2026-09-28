@@ -39,12 +39,14 @@ SORT t0 ASC
 
 ## Done — where on the clock each one landed
 
+Most recent first. The Landed column is the point: ✓ T-3 means done three days before T-zero, and ✓ T+2 means two days after.
+
 ```dataview
 TABLE WITHOUT ID
-  "✓ " + choice(landed > 0, "T+" + landed, "T" + landed) AS "Landed",
+  file.link AS "Where",
   regexreplace(regexreplace(task.text, " *.(t0|tc):: *[0-9-]+.", ""), " *#[^ ]+", "") AS "Task",
-  task.tc AS "Done",
-  file.link AS "Where"
+  "✓ " + choice(landed > 0, "T+" + landed, "T" + landed) AS "Landed",
+  dateformat(task.tc, "ccc, MMM dd") AS "Done"
 FLATTEN file.tasks AS task
 FLATTEN round((number(dateformat(task.tc, "x")) - number(dateformat(task.t0, "x"))) / 86400000) AS landed
 WHERE task.t0 AND task.completed AND task.tc
